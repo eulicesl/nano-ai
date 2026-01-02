@@ -21,6 +21,11 @@ export interface Model extends ModelResponse {
   canThink?: boolean;
 }
 
+export interface ToolSettings {
+  enabled: boolean;
+  enabledTools: string[];
+}
+
 export interface Settings {
   ollama: {
     serverType: ServerType;
@@ -32,6 +37,7 @@ export interface Settings {
     apiKey?: string;
     apiKeyList: { value: string; isLastUsed: boolean }[];
   };
+  tools: ToolSettings;
   hapticFeedback: boolean;
 }
 
@@ -43,6 +49,10 @@ export const settings = createStorageAtom(StorageKey.SETTINGS, {
     models: [],
     hostList: [],
     apiKeyList: []
+  },
+  tools: {
+    enabled: true,
+    enabledTools: ['calculator', 'get_current_datetime', 'web_search', 'fetch_url', 'run_javascript']
   },
   hapticFeedback: true
 } as Settings);

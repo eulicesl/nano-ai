@@ -1,6 +1,6 @@
 import type { TriggerRef } from '@rn-primitives/select';
 import * as Linking from 'expo-linking';
-import { Github, History, MoonStar, Sun, Trash2 } from 'lucide-react-native';
+import { Calculator, Clock, Code, Github, Globe, History, MoonStar, Search, Sun, Trash2, Wrench } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -16,11 +16,16 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
 import { useToast } from '@/hooks/use-toast';
+import { initializeTools } from '@/hooks/use-tools';
 import { Ollama } from '@/lib/ai-client/ollama';
 import { OLLAMA_CLOUD_DOCS_LINK, OLLAMA_CLOUD_HOST, PROJECT_GITHUB_URL } from '@/lib/constants';
+import { BUILTIN_TOOL_NAMES } from '@/lib/tools';
 import { canModelThink, cn } from '@/lib/utils';
 import { useChats } from '@/store/chats';
 import { ConnectStatus, ServerType, useSetSettings, useSettings } from '@/store/settings';
+
+// Initialize tools on app load
+initializeTools();
 
 const OllamaServer = () => {
   const [connecting, setConnecting] = useState(false);
@@ -237,6 +242,102 @@ const System = () => {
   );
 };
 
+const TOOL_INFO: Record<string, { name: string; description: string; icon: typeof Wrench }> = {
+  calculator: {
+    name: 'Calculator',
+    description: 'Evaluate math expressions',
+    icon: Calculator
+  },
+  get_current_datetime: {
+    name: 'Date & Time',
+    description: 'Get current date and time',
+    icon: Clock
+  },
+  web_search: {
+    name: 'Web Search',
+    description: 'Search the web for information',
+    icon: Search
+  },
+  fetch_url: {
+    name: 'URL Fetch',
+    description: 'Fetch content from URLs',
+    icon: Globe
+  },
+  run_javascript: {
+    name: 'Code Runner',
+    description: 'Execute JavaScript code',
+    icon: Code
+  }
+};
+
+const Tools = () => {
+  const [settings, setSettings] = useSettings();
+  const { tools } = settings;
+  const toolsEnabled = tools?.enabled ?? true;
+  const enabledTools = tools?.enabledTools ?? [...BUILTIN_TOOL_NAMES];
+
+  const handleToggleTools = (value: boolean) => {
+    setSettings(settings => {
+      if (!settings.tools) {
+        settings.tools = { enabled: value, enabledTools: [...BUILTIN_TOOL_NAMES] };
+      } else {
+        settings.tools.enabled = value;
+      }
+    });
+  };
+
+  const handleToggleTool = (toolName: string, value: boolean) => {
+    setSettings(settings => {
+      if (!settings.tools) {
+        settings.tools = { enabled: true, enabledTools: [...BUILTIN_TOOL_NAMES] };
+      }
+      if (value) {
+        if (!settings.tools.enabledTools.includes(toolName)) {
+          settings.tools.enabledTools.push(toolName);
+        }
+      } else {
+        settings.tools.enabledTools = settings.tools.enabledTools.filter(t => t !== toolName);
+      }
+    });
+  };
+
+  return (
+    <SettingSection title="Tools">
+      <View className="flex flex-row items-center">
+        <View className="flex-1 flex-row items-center gap-x-2">
+          <Icon as={Wrench} size={18} className="text-muted-foreground" />
+          <Text className="font-medium">Enable Tools</Text>
+        </View>
+        <Switch checked={toolsEnabled} onCheckedChange={handleToggleTools} />
+      </View>
+      <Text className="text-sm text-muted-foreground">
+        Allow the AI to use tools like web search, calculator, and code execution.
+      </Text>
+
+      {toolsEnabled && (
+        <View className="mt-2 gap-y-2">
+          {BUILTIN_TOOL_NAMES.map(toolName => {
+            const info = TOOL_INFO[toolName];
+            if (!info) return null;
+            const isEnabled = enabledTools.includes(toolName);
+
+            return (
+              <View key={toolName} className="flex flex-row items-center rounded-lg bg-accent p-3">
+                <Icon as={info.icon} size={18} className="text-muted-foreground" />
+                <View className="ml-3 flex-1">
+                  <Text className="font-medium">{info.name}</Text>
+                  <Text className="text-xs text-muted-foreground">{info.description}</Text>
+                </View>
+                <Switch checked={isEnabled} onCheckedChange={v => handleToggleTool(toolName, v)} />
+              </View>
+            );
+          })}
+        </View>
+      )}
+    </SettingSection>
+  );
+};
+
 const Actions = () => {
   const setSettings = useSetSettings();
   const [, { clear }] = useChats();
@@ -301,8 +402,9 @@ const Actions = () => {
 export default function Settings() {
   return (
     <ScrollView className="pt-safe-offset-12 flex-1 px-4">
-      <View className="flex gap-y-4">
+      <View className="flex gap-y-4 pb-8">
         <OllamaServer />
+        <Tools />
         <System />
         <Actions />
       </View>

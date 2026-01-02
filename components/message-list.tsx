@@ -10,6 +10,7 @@ import type { Message } from '@/store/chats';
 
 import { Copy } from './copy';
 import { Markdown } from './markdown';
+import { ToolCallDisplay } from './tool-call-display';
 import { Button } from './ui/button';
 import { Icon } from './ui/icon';
 import { NativeOnlyAnimatedView } from './ui/native-only-animated-view';
@@ -23,9 +24,9 @@ export function MessageList(props: { messages: Message[] }) {
   const autoScrollEnabled = useRef(true);
   const inChatting = useMemo(() => {
     if (messages.length > 0) {
-      const { isPending = false, isStreaming = false, isThinking = false, isAborted = false } = messages.at(-1)!;
+      const { isPending = false, isStreaming = false, isThinking = false, isAborted = false, isExecutingTools = false } = messages.at(-1)!;
 
-      return (isPending || isStreaming || isThinking) && !isAborted;
+      return (isPending || isStreaming || isThinking || isExecutingTools) && !isAborted;
     }
 
     return false;
@@ -56,7 +57,7 @@ export function MessageList(props: { messages: Message[] }) {
           handleContentSizeChange(...args);
         }}>
         <View className="px-safe-offset-4 flex flex-1 gap-y-4">
-          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted }, index) => {
+          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted, isExecutingTools, toolCalls, toolResults }, index) => {
             if (role === 'user') {
               return (
                 <View key={index} className="flex w-full scroll-mt-5 flex-row justify-end">
@@ -90,8 +91,15 @@ export function MessageList(props: { messages: Message[] }) {
                     ) : null}
                   </>
                 ) : null}
+                {toolCalls && toolCalls.length > 0 ? (
+                  <ToolCallDisplay
+                    toolCalls={toolCalls}
+                    toolResults={toolResults}
+                    isExecuting={isExecutingTools}
+                  />
+                ) : null}
                 <Markdown content={content} style={{ lineHeight: 24 }} />
-                {isStreaming || isThinking || isPending || isAborted ? null : <Copy className="relative right-2 w-10 text-muted-foreground" content={content} iconSize={16} showText={false} />}
+                {isStreaming || isThinking || isPending || isAborted || isExecutingTools ? null : <Copy className="relative right-2 w-10 text-muted-foreground" content={content} iconSize={16} showText={false} />}
               </View>
             );
           })}

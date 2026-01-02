@@ -2,6 +2,7 @@ import type { ModelResponse } from 'ollama';
 
 import { useStorageAtom } from '@/hooks/use-storage-atom';
 import { createStorageAtom, StorageKey } from '@/lib/local-storage';
+import type { ToolCall, ToolResult } from '@/lib/tools/types';
 import { withImmer } from '@/lib/utils';
 
 import { useSettingsValue } from './settings';
@@ -11,6 +12,7 @@ export interface MessageStatus {
   isThinking: boolean;
   isStreaming: boolean;
   isAborted: boolean;
+  isExecutingTools: boolean;
 }
 
 export interface Message extends Partial<MessageStatus> {
@@ -20,6 +22,8 @@ export interface Message extends Partial<MessageStatus> {
   updateAt?: number;
   thinkingContent?: string;
   thinkingDuration?: number;
+  toolCalls?: ToolCall[];
+  toolResults?: ToolResult[];
 }
 
 export interface Chat {

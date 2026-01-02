@@ -11,7 +11,11 @@ import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { initializeTools } from '@/hooks/use-tools';
 import { NAV_THEME } from '@/lib/theme';
+
+// Initialize tools on app startup
+initializeTools();
 
 SplashScreen.preventAutoHideAsync();
 
