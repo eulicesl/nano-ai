@@ -81,7 +81,7 @@ export function MessageList(props: { messages: Message[] }) {
                   <>
                     <View className="flex flex-row items-center gap-x-1">
                       <Icon as={Lightbulb} size={20} />
-                      <Text>{isThinking ? 'Thinking....' : `Thought for ${((thinkingDuration || 0) / 1000).toFixed(1)} seconds`}</Text>
+                      <Text>{isThinking ? 'Thinking…' : `Thought for ${((thinkingDuration || 0) / 1000).toFixed(1)} seconds`}</Text>
                     </View>
                     {thinkingContent ? (
                       <View className="pl-[26px]">

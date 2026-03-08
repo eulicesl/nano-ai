@@ -1,9 +1,8 @@
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { AlertCircleIcon } from 'lucide-react-native';
-import { Platform, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 
-import { cn } from '@/lib/utils';
 import { ConnectStatus, settings as settingsAtom } from '@/store/settings';
 
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
@@ -22,12 +21,15 @@ export function ConnectTips(props: { className?: string }) {
         <AlertTitle>Ollama server connect failed.</AlertTitle>
         <AlertDescription>
           Please go to{' '}
-          <TouchableOpacity
+          <Text
+            accessibilityHint="Opens settings screen"
+            accessibilityRole="link"
+            className="underline"
             onPress={() => {
               router.push('/settings');
             }}>
-            <Text className={cn('relative underline', Platform.select({ ios: 'top-[9.5px]', android: 'top-[5px]' }))}>Settings</Text>
-          </TouchableOpacity>{' '}
+            Settings
+          </Text>{' '}
           and update your Ollama API endpoint.
         </AlertDescription>
       </Alert>
