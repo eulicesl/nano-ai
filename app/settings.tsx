@@ -275,8 +275,8 @@ const Actions = () => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>This action cannot be undone. This will permanently delete all your conversations.</DialogDescription>
+            <DialogTitle>Delete all conversations?</DialogTitle>
+            <DialogDescription>This action can&apos;t be undone.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>

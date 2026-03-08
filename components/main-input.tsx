@@ -47,10 +47,12 @@ export function MainInput(props: { onSend: (input: string, think?: boolean) => P
       <View className="mt-2 flex w-full flex-row justify-end gap-x-2">
         {model?.canThink ? (
           <Toggle
+            accessibilityHint="Enable or disable thinking mode"
+            accessibilityLabel="Toggle thinking mode"
             aria-label="Toggle thinking"
             variant="outline"
             size="sm"
-            className="size-9 rounded-full border-0 bg-background shadow-none"
+            className="size-11 rounded-full border-0 bg-background shadow-none"
             pressed={think || false}
             onPressedChange={() => {
               if (hapticFeedback) {
@@ -62,11 +64,34 @@ export function MainInput(props: { onSend: (input: string, think?: boolean) => P
           </Toggle>
         ) : null}
         {inChatting ? (
-          <Button size="icon" className="size-9 rounded-full" onPress={onAbort}>
+          <Button
+            accessibilityHint="Stops the current response generation"
+            accessibilityLabel="Stop generating"
+            accessibilityRole="button"
+            size="icon"
+            className="size-11 rounded-full"
+            onPress={() => {
+              if (hapticFeedback) {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }
+              onAbort();
+            }}>
             <View className="size-3 rounded-[2px] bg-primary-foreground" />
           </Button>
         ) : (
-          <Button size="icon" className="size-9 rounded-full" disabled={!input || !model || connectStatus !== ConnectStatus.SUCCESSFUL} onPress={handleSend}>
+          <Button
+            accessibilityHint="Sends your message"
+            accessibilityLabel="Send message"
+            accessibilityRole="button"
+            size="icon"
+            className="size-11 rounded-full"
+            disabled={!input || !model || connectStatus !== ConnectStatus.SUCCESSFUL}
+            onPress={async () => {
+              if (hapticFeedback) {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }
+              await handleSend();
+            }}>
             <Icon as={ArrowUpIcon} className="size-4 text-primary-foreground" />
           </Button>
         )}

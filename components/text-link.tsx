@@ -1,7 +1,7 @@
 import * as Linking from 'expo-linking';
 import { type Router, useRouter } from 'expo-router';
 import type { PropsWithChildren } from 'react';
-import { Platform, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { cn } from '@/lib/utils';
 
@@ -28,7 +28,7 @@ export function TextLink(props: PropsWithChildren<{ url?: string | TypedUrl; ext
 
   return (
     <TouchableOpacity onPress={handleRoute}>
-      <Text className={cn('relative underline', Platform.select({ ios: 'top-[9.5px]', android: 'top-[5px]' }), className)}>{children}</Text>
+      <Text className={cn('underline', className)}>{children}</Text>
     </TouchableOpacity>
   );
 }

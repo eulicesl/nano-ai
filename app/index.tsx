@@ -145,11 +145,11 @@ function Header(props: { handlePressSidebarIcon: () => void }) {
 
   return (
     <View className="pt-safe absolute z-10 flex w-full flex-row items-center bg-background pb-1">
-      <Button onPress={handlePressSidebarIcon} size="icon" variant="ghost" className="top-safe absolute left-2 size-9 rounded-full">
-        <Icon as={Sidebar} className="size-[18px]" />
+      <Button accessibilityHint="Opens conversation history" accessibilityLabel="Open sidebar" accessibilityRole="button" onPress={handlePressSidebarIcon} size="icon" variant="ghost" className="top-safe absolute left-2 size-11 rounded-full">
+        <Icon as={Sidebar} className="size-5" />
       </Button>
-      <Button onPress={toggleColorScheme} size="icon" variant="ghost" className="top-safe absolute left-10 size-9 rounded-full">
-        <Icon as={THEME_ICONS[colorScheme ?? 'light']} className="size-[18px]" />
+      <Button accessibilityHint="Switch between light and dark appearance" accessibilityLabel="Toggle theme" accessibilityRole="button" onPress={toggleColorScheme} size="icon" variant="ghost" className="top-safe absolute left-12 size-11 rounded-full">
+        <Icon as={THEME_ICONS[colorScheme ?? 'light']} className="size-5" />
       </Button>
       <View className="flex-1 items-center">
         <View className="flex flex-row items-center gap-x-1">
@@ -157,13 +157,13 @@ function Header(props: { handlePressSidebarIcon: () => void }) {
           <Text className="text-base font-medium">Nano AI</Text>
         </View>
         <TouchableOpacity disabled={connectStatus !== ConnectStatus.SUCCESSFUL} onPress={() => router.push('/models')}>
-          <Text style={{ fontFamily: 'Google_Sans_Code' }} className={cn('text-xs', connectStatus === ConnectStatus.SUCCESSFUL ? 'text-muted-foreground' : 'text-gray-300')}>
+          <Text style={{ fontFamily: 'Google_Sans_Code' }} className={cn('text-xs', connectStatus === ConnectStatus.SUCCESSFUL ? 'text-muted-foreground' : 'text-destructive')}>
             {model ? model.name : 'select model...'}
           </Text>
         </TouchableOpacity>
       </View>
-      <Button onPress={create} size="icon" variant="ghost" className="top-safe absolute right-2 size-9 rounded-full">
-        <Icon as={Edit} className="size-[18px]" />
+      <Button accessibilityHint="Starts a new conversation" accessibilityLabel="New chat" accessibilityRole="button" onPress={create} size="icon" variant="ghost" className="top-safe absolute right-2 size-11 rounded-full">
+        <Icon as={Edit} className="size-5" />
       </Button>
     </View>
   );
