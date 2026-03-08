@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { Edit, MoonStarIcon, Sidebar, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { useEffect, useRef } from 'react';
-import { AppState, Image, KeyboardAvoidingView, ScrollView, TouchableOpacity, View } from 'react-native';
+import { AppState, Image, KeyboardAvoidingView, ScrollView, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import ReanimatedDrawerLayout, { DrawerLayoutMethods } from 'react-native-gesture-handler/ReanimatedDrawerLayout';
 
 import { ConnectTips } from '@/components/connect-tips';
@@ -39,6 +39,7 @@ const IMAGE_STYLE = {
 
 export default function Index() {
   const { colorScheme } = useColorScheme();
+  const { width } = useWindowDimensions();
   const { start: startLiveActivity, stop: stopLiveActivity, update: updateLiveActivity, running } = useLiveActivity();
   const [{ current, data }] = useChats();
   const [messages] = useMessage();
@@ -95,7 +96,7 @@ export default function Index() {
   return (
     <ReanimatedDrawerLayout
       ref={drawerRef}
-      drawerWidth={300}
+      drawerWidth={Math.min(380, Math.max(300, Math.round(width * 0.72)))}
       renderNavigationView={() => (
         <DrawerContent
           close={() => {

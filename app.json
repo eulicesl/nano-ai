@@ -3,7 +3,7 @@
     "name": "Nano AI",
     "slug": "nano-ai",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/logo.png",
     "scheme": "nano-ai",
     "userInterfaceStyle": "automatic",

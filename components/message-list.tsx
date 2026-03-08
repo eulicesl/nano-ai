@@ -56,10 +56,10 @@ export function MessageList(props: { messages: Message[] }) {
           handleContentSizeChange(...args);
         }}>
         <View className="px-safe-offset-4 flex flex-1 gap-y-4">
-          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted }, index) => {
+          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted, createAt }, index) => {
             if (role === 'user') {
               return (
-                <View key={index} className="flex w-full scroll-mt-5 flex-row justify-end">
+                <View key={`${createAt}_${index}`} className="flex w-full scroll-mt-5 flex-row justify-end">
                   <Text className="w-max max-w-[75%] rounded-[20px] bg-accent px-4 py-2 font-medium leading-6" selectable>
                     {content}
                   </Text>
@@ -69,14 +69,14 @@ export function MessageList(props: { messages: Message[] }) {
 
             if (isPending) {
               return (
-                <View key={index} className="mr-auto w-max rounded-[20px] bg-accent px-4 py-3">
+                <View key={`${createAt}_${index}`} className="mr-auto w-max rounded-[20px] bg-accent px-4 py-3">
                   <Spinner />
                 </View>
               );
             }
 
             return (
-              <View key={index}>
+              <View key={`${createAt}_${index}`}>
                 {isThinking !== void 0 ? (
                   <>
                     <View className="flex flex-row items-center gap-x-1">
