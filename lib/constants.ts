@@ -1,4 +1,4 @@
-export const APP_SCHEME = 'nova';
+export const APP_SCHEME = 'nano-ai';
 
 export const PROJECT_GITHUB_URL = 'https://github.com/eulicesl/nano-ai';
 

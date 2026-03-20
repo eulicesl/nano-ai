@@ -4,7 +4,7 @@
   <dict>
     <key>com.apple.security.application-groups</key>
     <array>
-      <string>group.com.eulices.nova</string>
+      <string>group.com.anonymous.nano-ai</string>
     </array>
   </dict>
 </plist>
