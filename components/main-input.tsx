@@ -64,14 +64,7 @@ export function MainInput(props: { onSend: (input: string, think?: boolean) => P
           </Toggle>
         ) : null}
         {inChatting ? (
-          <Button
-            accessibilityHint="Stops the current response generation"
-            accessibilityLabel="Stop generating"
-            accessibilityRole="button"
-            size="icon"
-            className="size-11 rounded-full"
-            haptic
-            onPress={onAbort}>
+          <Button accessibilityHint="Stops the current response generation" accessibilityLabel="Stop generating" accessibilityRole="button" size="icon" className="size-11 rounded-full" haptic onPress={onAbort}>
             <View className="size-3 rounded-[2px] bg-primary-foreground" />
           </Button>
         ) : (

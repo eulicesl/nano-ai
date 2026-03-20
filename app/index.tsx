@@ -161,7 +161,7 @@ function Header(props: { handlePressSidebarIcon: () => void }) {
       <View className="flex-1 items-center">
         <View className="flex flex-row items-center gap-x-1">
           {messages.length > 0 ? <Image source={LOGO[colorScheme ?? 'light']} resizeMode="contain" className="mb-1 size-6" /> : null}
-          <Text className="text-base font-medium">Nano AI</Text>
+          <Text className="text-base font-medium">N.O.V.A.</Text>
         </View>
         <TouchableOpacity disabled={connectStatus !== ConnectStatus.SUCCESSFUL} onPress={() => router.push('/models')}>
           <Text

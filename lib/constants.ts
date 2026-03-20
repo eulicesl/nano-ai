@@ -1,6 +1,6 @@
 export const APP_SCHEME = 'nano-ai';
 
-export const PROJECT_GITHUB_URL = 'https://github.com/TonyL1u/nano-ai';
+export const PROJECT_GITHUB_URL = 'https://github.com/eulicesl/nano-ai';
 
 export const STOP_LIVE_ACTIVITY_ACTION_TARGET = 'stop-live-activity';
 
