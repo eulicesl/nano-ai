@@ -1,6 +1,6 @@
 export const APP_SCHEME = 'nova';
 
-export const PROJECT_GITHUB_URL = 'https://github.com/eulicesl/nano-ai';
+export const PROJECT_GITHUB_URL = 'https://github.com/eulicesl/nova';
 
 export const STOP_LIVE_ACTIVITY_ACTION_TARGET = 'stop-live-activity';
 
